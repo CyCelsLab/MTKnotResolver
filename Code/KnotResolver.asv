@@ -139,9 +139,11 @@ for d = 1:height(input_data)
     close all
 end 
 %% Convert struct to csv for easy handling 
+
 for d  = 1:height(input_data)
     filePath = fullfile(segOutPath, replace(input_data.segFile{d}, '.mat', ''), resolvedStruct);
     load(filePath) % Output folder is resolve Coordinates
+
     sizemat = cellfun(@size, {resolveCoordinates.Skeleton}, 'UniformOutput',false);
     maxSize = max(cellfun(@max, sizemat));
     dataL = sum(cellfun(@max, sizemat));
@@ -162,4 +164,5 @@ for d  = 1:height(input_data)
     end
     [figurePath,~,~] = fileparts(filePath);
     writematrix(dataArray, fullfile(figurePath, 'MTdata.csv'));
+
 end
