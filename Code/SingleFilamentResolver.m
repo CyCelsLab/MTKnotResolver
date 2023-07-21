@@ -128,7 +128,6 @@ for f = 1:numFilaments
          resolveCoordinates(f).Offset = Offset;
          resolveCoordinates(f).smallSize = size(curContour); 
 
-
     end
 end
 close all 
