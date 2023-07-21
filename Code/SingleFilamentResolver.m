@@ -1,6 +1,6 @@
 %% Written by Dhruv Khatri , Cycels IISER Pune, 2022. 
 % Contributions from Prince Shah, Prof. Chaitanya Athale. 
-function resolveCoordinates = SingleFilamentResolver(data_struct,frameIgnore, frameEdit, outFolder)
+function resolveCoordinates = SingleFilamentResolver(data_struct,frameIgnore, frameEdit, frameInvert,outFolder)
 %SINGLEFILAMENTRESOLVER, created by Dhruv Khatri, Cycels, IISER Pune, Oct 3 2022
 % Contributions from Prince Shah & Chaitanya A Athale 
 % Script performs contour resolution of "branched" microtubules in a gliding
@@ -108,13 +108,20 @@ for f = 1:numFilaments
          % contour, make sure that ignored frames are not picked 
          if ismember(resolveCoordinates(f).FrameNumber, frameEdit) 
              manualEdit = true;
+             if ismember(resolveCoordinates(f).FrameNumber,frameInvert)
+                 frameInvertTrue = true; 
+             else
+                 frameInvertTrue = false; 
+             end 
          else 
              manualEdit = false;
+             frameInvertTrue = false; 
          end 
          refSize  = resolveCoordinates(f-1).smallSize; 
          refOffset  = resolveCoordinates(f-1).Offset; 
-         [sortedSkeleton, referenceEnd, ~, ~] = sortBranch_v2(curContour, E1, ...
-             resolveCoordinates(f-1).Skeleton, referenceEnd, refSize,refOffset,Offset,manualEdit); 
+         [sortedSkeleton, referenceEnd, ~, ~] = sortBranch_v3(curContour, E1, ...
+             resolveCoordinates(f-1).Skeleton, referenceEnd, ...
+             refSize,refOffset,Offset,manualEdit,frameInvertTrue); 
          resolveCoordinates(f).Skeleton = sortedSkeleton; 
          %resolveCoordinates(f).Possbilities = allpos;
          %resolveCoordinates(f).Scores = allScore; 
@@ -155,13 +162,13 @@ for d = 1:length(resolveCoordinates)
     %figure(1), plot(xx, yy,'r-');hold off 
     
     figure(1),patch([xx' nan], [yy' nan],[1:length(xx) nan], 'edgecolor', 'interp', 'LineWidth', 2.0); hold off
-    imwrite(getframe(gcf).cdata, fullfile(outFolder, 'segOverlay.tif'),'Writemode', 'append');
+    imwrite(getframe(gcf).cdata, fullfile(outFolder, 'segOverlay_v4.tif'),'Writemode', 'append');
 
     %imwrite(getframe(gcf).cdata, fullfile(outFolder, 'Contour.tif'), 'Writemode', 'append');
 end 
 F = findall(0,'type','figure','tag','TMWWaitbar');
 delete(F);
-save(fullfile(outFolder, "resolveCorrdinates.mat" ),"resolveCoordinates"); 
+save(fullfile(outFolder, "resolveCoordinates_v4.mat" ),"resolveCoordinates"); 
 end 
 
 function  [IsolateImage, Offset]= ImIsolate(Im,PixelIndices)
