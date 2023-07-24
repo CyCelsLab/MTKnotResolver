@@ -1,19 +1,19 @@
 %% Created by Dhruv Khatri , IISER pune.
-%{
-Following script implements contour segmentation and branch resolution
-pipeline for a give file. The inputs are read from a csv files containing
-file path and input parameters. Input parameters can be optimized using
-SingleFileParametersOptimize.m file. The parameters can then be saved in a
-csv file and read directly with KnotResolcer.m 
-%} 
-
+%KnotRsolver.m script implements contour segmentation and branch resolution
+% pipeline for a give file. The inputs are read from a csv file containing
+% file path and input parameters. Input parameters can be optimized using
+% OptimizeParameters.m file. The parameters can then be saved in a
+% csv file and read directly with KnotResolver.m. Please refer to the
+% sample cvs provided on github for naming the variables and the format. 
+% Hosted at: https://github.com/CyCelsLab/MTLoopResolve
+% Parameters/names coded in the script are on line 51, 126
 clear all; close all 
 %% Load the input csv data 
-[inputFile, pathFile]= uigetfile(".csv"); 
-outputPath =fullfile(pathFile,"DemoOutput");
+[inputFile, pathFile]= uigetfile('.csv'); 
+outputPath =fullfile(pathFile,'DemoOutput');
 [status, msg, msgID] = mkdir(outputPath); 
 input_data =readtable(fullfile(pathFile,inputFile));
-%% Set parameters 
+%% Load parameters 
 for h = 1:height(input_data)
 % Load the csv parameters 
 threshold = input_data.segThresh(h); % threshold value for imbinarize 
@@ -21,10 +21,10 @@ numIteration = input_data.segIteration(h); % iterations for active contour
 contB = input_data.segContract(h); % contraction bias for activecontour function 
 smoothF =input_data.segSmooth(h); % smooth factor for activecontour function
 inputFile = input_data.Filename{h}; 
-filenameOut = replace(inputFile, ".tif", ".mat") ; 
-segfileName = replace(inputFile, ".tif", "seg.tif"); 
+filenameOut = replace(inputFile,'.tif', '.mat') ; 
+segfileName = replace(inputFile, '.tif', 'seg.tif'); 
 outfilename = fullfile(outputPath,filenameOut); 
-useLogP = input_data.useLogP{h};
+useLogP = input_data.useLogP{h}; % Whether to use LOG to improve intital guess. 
 folderPath = input_data.FolderPath{h}; 
 logPk =input_data.logPk(h); logPs=input_data.logPs(h);
 filepath = fullfile(folderPath ,inputFile); 
@@ -97,11 +97,11 @@ for f = 1:nFrames
 %     figure(1), imshow(imoverlay(medI, skelImage, 'red'),'InitialMagnification', 200,'Border','loose'); title(num2str(f));
 %     title(num2str(f))
 %     imwrite(getframe(gcf).cdata, fullfile(outputPath, segfileName),'Writemode', 'append');
-
-    %patch([xx' nan], [yy' nan], [yy' nan], [yy' nan], 'edgecolor', 'interp'); 
-    %pause(0.25)
+%     patch([xx' nan], [yy' nan], [yy' nan], [yy' nan], 'edgecolor', 'interp'); 
+%     pause(0.25)
 end 
-save(outfilename,"data_struct"); 
+% Can be used for analysis of binary contours separately. 
+save(outfilename,'data_struct'); 
 end 
 
 %% Branch Resolver 
@@ -117,15 +117,14 @@ for f = 1:height(input_data)
     listFra = string(ignoreFrames); 
     frameIgnore =str2num(listFra); 
     frameInvert = str2num(string(input_data.InvertManual(f))); 
-    resFileName = replace(segFile, ".mat", ""); 
+    resFileName = replace(segFile, '.mat', ''); 
     resfullPath  = fullfile(segOutPath, resFileName); 
     load(inputFile) % Load the data_struct 
     resolveCoordinates = SingleFilamentResolver(data_struct, frameIgnore, ...
         frameEdit, frameInvert,resfullPath); 
 end 
-
 %% Analysis Plots 
-resolvedStruct = "resolveCoordinates_v4.mat"; 
+resolvedStruct = 'resolveCoordinates_v4.mat'; 
 % Process each struct and plot graphs 
 for d = 1:height(input_data)
     filePath = fullfile(segOutPath, replace(input_data.segFile{d}, '.mat', ''), resolvedStruct); 

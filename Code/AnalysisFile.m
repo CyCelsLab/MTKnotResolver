@@ -1,7 +1,19 @@
 %% Created by Dhruv Khatri , IISER Pune. 
-% Sources used: 
-% Scaling factor used on line 36,37; 
 function AnalysisFile(resolveCoordinates, filePath)
+%AnalysisFile implements plotting of tangent angle along the contour and
+% ouputs the csv file of framenumber , x and y coordinates. The output
+% therefore are open figure of 3 subfigures (1) Overlay of contour with
+% gradient coded along the length of the contour. (2) Tangent angle
+% kymograph along. (3) End-to end distance between the two ends for the
+% complete time series. 
+% INPUT: 
+% ResolveCoordinates: The struct output from the KnotResolver.m file. 
+% filePath: File path of where the input is located. Creates a DemoOutput
+% folder and saves the pdf of the fiugure and csv file. 
+% Please be sure to correct the scaling factor in the script. 
+% Scaling factor used on line 36,37; 
+
+
     % Get the size of each skeleton and find the maximum size
     sizemat = cellfun(@size, {resolveCoordinates.Skeleton}, 'UniformOutput', false);
     maxSize = max(cellfun(@max, sizemat));
@@ -133,6 +145,7 @@ end
 
 % Helper function to calculate tangent angles
 function degreeArray = tanangle(vectorarray)
+%DEGREEARRAY plots the tangent angle between -2\pi and 2\pi
     [r, ~] = size(vectorarray);
     degreeArray = zeros(r, 1);
     for t = 1:r
@@ -157,11 +170,13 @@ end
 
 % Helper function to calculate tangent angles
 function degreeArray = tangentangle(xc, yc)
+%TANGENTANGLE standaed tan angle calculation using in built atan2d
     degreeArray = atan2d(diff(yc), diff(xc));
 end
 
 % Helper function to calculate magnitude of a vector
 function N = mag(T, n)
+%MAG calculates the magnitude of a vector. 
     N = sum(abs(T).^2, 2).^(1 / 2);
     d = find(N == 0);
     N(d) = eps * ones(size(d));
