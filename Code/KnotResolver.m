@@ -130,36 +130,10 @@ resolvedStruct = "resolveCoordinates_v4.mat";
 for d = 1:height(input_data)
     filePath = fullfile(segOutPath, replace(input_data.segFile{d}, '.mat', ''), resolvedStruct); 
     load(filePath) % Output folder is resolve Coordinates 
-    tangentPlot(resolveCoordinates); 
+    AnalysisFile(resolveCoordinates,filePath); 
     [figurePath,~,~] = fileparts(filePath); 
-
     %print(gcf, '-dpdf', fullfile(figurePath, sprintf("Over%d.pdf",d)),'-r600')
     %figure(2), plot(cat(1,resolveCoordinates.FrameNumber).*10,bendingarray, 'lineWidth', 3.0); 
     print(gcf, '-dpdf', fullfile(figurePath, sprintf("Al%d.pdf",d)),'-r600')
     close all
 end 
-%% Convert struct to csv for easy handling 
-for d  = 1:height(input_data)
-    filePath = fullfile(segOutPath, replace(input_data.segFile{d}, '.mat', ''), resolvedStruct);
-    load(filePath) % Output folder is resolve Coordinates
-    sizemat = cellfun(@size, {resolveCoordinates.Skeleton}, 'UniformOutput',false);
-    maxSize = max(cellfun(@max, sizemat));
-    dataL = sum(cellfun(@max, sizemat));
-    maxRow = max(cat(1,resolveCoordinates.FrameNumber));
-    dataArray = zeros(dataL, 3);
-    start = 1;
-    for l = 1:length(resolveCoordinates)
-        singleCurve = resolveCoordinates(l).Skeleton;
-        [yc, xc] = ind2sub(resolveCoordinates(l).smallSize, singleCurve);
-        frameN = resolveCoordinates(l).FrameNumber;
-        Offset = resolveCoordinates(l).Offset;
-
-        yc = yc + Offset(1);
-        xc = xc + Offset(2);
-
-        dataArray(start:start+length(xc)-1, 1:3) = [repmat(frameN,length(xc),1), xc,yc];
-        start = start + length(xc);
-    end
-    [figurePath,~,~] = fileparts(filePath);
-    writematrix(dataArray, fullfile(figurePath, 'MTdata.csv'));
-end
