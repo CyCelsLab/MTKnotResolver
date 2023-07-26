@@ -93,6 +93,8 @@ function dataArray = AnalysisFile(resolveCoordinates, filePath)
 
     % Create a colorbar and plot the tangent angles
     colorbar;
+    xlabel('X (\mu m)');
+    ylabel('Y (\mu m)'); 
     hold off
     matDisTangent = matDisTangent / 180;
     imAlpha = ones(size(matDisTangent));
@@ -107,15 +109,19 @@ function dataArray = AnalysisFile(resolveCoordinates, filePath)
 
     figure(1), subplot(3, 1, 2);
     imagesc([1:maxSize] * (106 / 1000), [0:maxRow] * 10, matDisTangent, 'AlphaData', imAlpha);
+    xlabel('MT (\mu m)')
+    ylabel('Time (s)')
     set(gca, 'color', 0 * [1 1 1]);
     set(gca, 'FontSize', 14);
     xlim([0 (maxSize - spreadZero) * (106 / 1000)]);
     cb = colorbar;
     set(cb, 'Ticks', [-1, -0.5, 0, 0.5, 1], 'TickLabels', {'-\pi ', '-\pi /2', '0', '\pi /2', '\pi '}, 'FontSize', 16);
-
+    
     % Plot end-to-end distances
     figure(1), subplot(3, 1, 3);
     plot(cat(1, resolveCoordinates.FrameNumber) * 10, endEndDistance, 'k-', 'LineWidth', 2.0);
+    ylabel('d_{e} (\mu m)') 
+    xlabel('Time (s)')
     set(gca, 'FontSize', 14);
     g.Position = [1229 115 467 1200];
 
