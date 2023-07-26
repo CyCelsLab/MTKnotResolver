@@ -1,4 +1,5 @@
 function outMat = ProcessCSV(mtcsv, scalingFactor,endDistancemicron,timeStep)
+    close all;
     % Check if the scalingFactor is provided, otherwise set a default value
     if nargin < 2
         scalingFactor = 106/1000; % Default scaling factor value (you can change it as needed)
@@ -7,7 +8,7 @@ function outMat = ProcessCSV(mtcsv, scalingFactor,endDistancemicron,timeStep)
     % Set the endDistance (This distance is from the end)
     endDistancemicron = ceil(endDistancemicron/scalingFactor);  % convert micron to px
     % Read the CSV file
-    data = readmatrix(mtcsv);
+    data = mtcsv;  % readmatrix(mtcsv);
 
     % Extract frame number, x-coordinates, and y-coordinates from the data
     frameNumber = data(:, 1);
@@ -29,7 +30,7 @@ function outMat = ProcessCSV(mtcsv, scalingFactor,endDistancemicron,timeStep)
 
     frequencies = (0:length(tipAngles) - 1)*fs / length(tipAngles); % Normalized frequencies
      % Plot the data of tip angles
-    figure(1);
+    figure(1); subplot(1,2,1); 
 
     plot(unique(frameNumber).*timeStep, tipAngles, 'b-', 'LineWidth', 2);
     xlabel('Time (s)');
@@ -40,7 +41,7 @@ function outMat = ProcessCSV(mtcsv, scalingFactor,endDistancemicron,timeStep)
 
 
     % Plot the FFT analysis results
-    figure(2);
+    figure(1); subplot(1,2,2); 
     stem(frequencies, amplitude, 'r-', 'LineWidth', 1.5);
     xlabel('Frequency (Hz)');
     ylabel('Amplitude');

@@ -1,5 +1,5 @@
 %% Created by Dhruv Khatri , IISER Pune. 
-function AnalysisFile(resolveCoordinates, filePath)
+function dataArray = AnalysisFile(resolveCoordinates, filePath)
 %AnalysisFile implements plotting of tangent angle along the contour and
 % ouputs the csv file of framenumber , x and y coordinates. The output
 % therefore are open figure of 3 subfigures (1) Overlay of contour with

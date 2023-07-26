@@ -129,10 +129,12 @@ resolvedStruct = 'resolveCoordinates_v4.mat';
 for d = 1:height(input_data)
     filePath = fullfile(segOutPath, replace(input_data.segFile{d}, '.mat', ''), resolvedStruct); 
     load(filePath) % Output folder is resolve Coordinates 
-    AnalysisFile(resolveCoordinates,filePath); 
+    dataArray = AnalysisFile(resolveCoordinates,filePath); 
     [figurePath,~,~] = fileparts(filePath); 
     %print(gcf, '-dpdf', fullfile(figurePath, sprintf("Over%d.pdf",d)),'-r600')
     %figure(2), plot(cat(1,resolveCoordinates.FrameNumber).*10,bendingarray, 'lineWidth', 3.0); 
     print(gcf, '-dpdf', fullfile(figurePath, sprintf("Al%d.pdf",d)),'-r600')
     close all
+    ProcessCSV(dataArray, 106/1000, 0, 10); 
+    print(gcf, '-dpdf', fullfile(figurePath, sprintf("Tip angle%d",d)), '-r600')
 end 
