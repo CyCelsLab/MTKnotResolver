@@ -11,6 +11,6 @@ Things to do :
  3. Image Processing Toolbox 11.5
  4. Statistics and Machine Learning Toolbox 12.3
  5. Curve Fitting Toolbox 3.7
- 6. Parallel Computing Toolbox 7.6
- 7. MATLAB Parallel Server 7.6
- 8. Polyspace Bug Finder 3.6
+ 6. Parallel Computing Toolbox 7.6 (Optional)
+ 7. MATLAB Parallel Server 7.6 (Optional)
+ 8. Polyspace Bug Finder 3.6 (Optional)
