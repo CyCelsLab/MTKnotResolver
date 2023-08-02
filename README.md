@@ -6,11 +6,11 @@ Things to do :
 
 ## ToolBoxes required 
 
-  MATLAB
-  Signal Processing Toolbox
-  Image Processing Toolbox
-  Statistics and Machine Learning Toolbox
-  Curve Fitting Toolbox
-  Parallel Computing Toolbox
-  MATLAB Parallel Server
-  Polyspace Bug Finder
+ 1. MATLAB
+ 2. Signal Processing Toolbox
+ 3. Image Processing Toolbox
+ 4. Statistics and Machine Learning Toolbox
+ 5. Curve Fitting Toolbox
+ 6. Parallel Computing Toolbox
+ 7. MATLAB Parallel Server
+ 8. Polyspace Bug Finder
