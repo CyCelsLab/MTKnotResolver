@@ -30,7 +30,7 @@ function outMat = ProcessCSV(mtcsv, scalingFactor,endDistancemicron,timeStep)
 
     frequencies = (0:length(tipAngles) - 1)*fs / length(tipAngles); % Normalized frequencies
      % Plot the data of tip angles
-    figure(1); subplot(1,2,1); 
+    g = figure(1); subplot(1,2,1); 
 
     plot(unique(frameNumber).*timeStep, tipAngles, 'b-', 'LineWidth', 2);
     xlabel('Time (s)');
@@ -47,6 +47,8 @@ function outMat = ProcessCSV(mtcsv, scalingFactor,endDistancemicron,timeStep)
     ylabel('Amplitude');
     title('FFT Analysis of Tip Angle Variation');
     grid on;
+
+    g.Position = [995 909 1016 413];
 end
 
 function tipAngles = CalculateTipAngles(xCoordinates, yCoordinates, frameNumber,d)
