@@ -5,6 +5,7 @@ maxRow = max(cat(1,resolveCoordinates.FrameNumber));
 matDisTangent = zeros(maxRow, maxSize);
 matDisTangent(matDisTangent == 0) = nan;
 endEndDistance= []; 
+allLength  = []; 
 for l = 1:length(resolveCoordinates)
     %%
     singleCurve = resolveCoordinates(l).Skeleton;
@@ -42,7 +43,7 @@ for l = 1:length(resolveCoordinates)
     yc1 = yc1 * (106/1000); 
     xc1 = xc1 * (106/1000); 
 
-
+    allLength =[allLength,  lengthFil(xc1,yc1)];
     endEndDistance= [endEndDistance, pdist([xc1(1), yc1(1);xc1(end), yc1(end)])]; 
 
     g = figure(1),subplot(3,1,1); patch([xc1' nan], [yc1' nan], [1:length(xc) nan], ...
@@ -124,6 +125,8 @@ g.Position = [1229 115 467 1200];
 %     print(gcf, '-dpdf', fullfile(figurePath, "endEnd.pdf"),'-r600'
 
 
+figure(2), plot(cat(1,resolveCoordinates.FrameNumber)*10,allLength); 
+xlabel('time (t)'); ylabel('length (\mu m)'); 
 end 
 
 
@@ -164,3 +167,7 @@ d = find(N==0);
 N(d) = eps*ones(size(d));
 N = N(:,ones(n,1));
 end
+
+function getLength = lengthFil(xc,yc)
+getLength = sum(sqrt(diff(xc).^2 + diff(yc).^2)); 
+end 

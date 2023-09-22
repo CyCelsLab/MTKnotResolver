@@ -321,7 +321,11 @@ countArray = [countArray; startCount];
 roughArray(nonzeros(remI)) =[]; 
 roughArray = [roughArray, countArray]; 
 
-majorLabels = roughArray(roughArray(:,2) >= 8);
+threshmajor = max(roughArray(:,2)); 
+if threshmajor > 8  
+   threshmajor = 8; 
+end
+majorLabels = roughArray(roughArray(:,2) >= threshmajor);
 
 if majorLabels(1) ~= startPoint
     majorLabels = [startPoint; majorLabels]; 

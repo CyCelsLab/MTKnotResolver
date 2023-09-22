@@ -13,9 +13,9 @@ nFrames = imfinfo(filepath);
 % Define and initialize various segmentation parameters
 visFrame = 1; % Select the frame for tuning segmentation parameters
 filenameOut = replace(inputFile, ".tiff", ".mat");
-threshold = 0.30; % Threshold value for binarization
-numIteration = 50; % Number of iterations for active contour
-contB = 0.25; % Contraction bias for activecontour function
+threshold = 0.46; % Threshold value for binarization
+numIteration = 10; % Number of iterations for active contour
+contB = 0.4; % Contraction bias for activecontour function
 smoothF = 0.5; % Smooth factor for activecontour function
 resolveFile = "";
 requiresManual = false; % Flag indicating manual intervention
@@ -76,6 +76,7 @@ for f = 1:length(nFrames)
 
     actCont = activecontour(medI, BW1, numIteration, 'Chan-vese', ...
         'ContractionBias',contB, 'SmoothFactor',smoothF);
+    actCont = bwareafilt(actCont, 2); 
     connectedComp = bwconncomp(actCont,8);
     filaprops = regionprops(connectedComp, 'PixelIdxList'); 
     if ~selectedFilament

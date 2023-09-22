@@ -39,7 +39,11 @@ end
 
 % Check if the first frame is branched or unbranched & if the fields are
 % non empty 
-resolveCoordinates =data_struct;
+% remove empty data_struct 
+
+data_struct = data_struct(~cellfun(@isempty,{data_struct.Contour})); 
+%data_struct(data_struct) = []
+resolveCoordinates = data_struct;
 resolveCoordinates(ismember(cat(1,resolveCoordinates.FrameNumber), frameIgnore')) = []; 
 if ~isempty(resolveCoordinates)
     numFilaments = length(resolveCoordinates);

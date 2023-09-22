@@ -50,6 +50,8 @@ for f = 1:nFrames
 
     actCont = activecontour(medI, BW1, numIteration, 'Chan-vese', ...
         'ContractionBias',contB, 'SmoothFactor',smoothF);
+    actCont = imclearborder(actCont); 
+    actCont = bwareafilt(actCont, 2);
     connectedComp = bwconncomp(actCont,8);
     filaprops = regionprops(connectedComp, 'PixelIdxList'); 
     if ~selectedFilament
