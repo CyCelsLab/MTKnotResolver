@@ -163,10 +163,13 @@ for d = 1:length(resolveCoordinates)
     ims = repmat(ims,[1 1 3]); 
     figure(1), imshow(ims, 'border','loose'); title(resolveCoordinates(d).FrameNumber); hold on 
     %figure(1), plot(xx, yy,'r-');hold off 
-    
-    figure(1),patch([xx' nan], [yy' nan],[1:length(xx) nan], 'edgecolor', 'interp', 'LineWidth', 2.0); hold off
-    imwrite(getframe(gcf).cdata, fullfile(outFolder, 'segOverlay_v4.tif'),'Writemode', 'append');
+    try
+        figure(1),patch([xx' nan], [yy' nan],[1:length(xx) nan], 'edgecolor', 'interp', 'LineWidth', 2.0); hold off
+        imwrite(getframe(gcf).cdata, fullfile(outFolder, 'segOverlay_v4.tif'),'Writemode', 'append');
+    catch 
+        imwrite(getframe(gcf).cdata, fullfile(outFolder, 'segOverlay_v4.tif'),'Writemode', 'append');
 
+    end 
     %imwrite(getframe(gcf).cdata, fullfile(outFolder, 'Contour.tif'), 'Writemode', 'append');
 end 
 F = findall(0,'type','figure','tag','TMWWaitbar');
