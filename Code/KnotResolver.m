@@ -109,7 +109,7 @@ end
 %% Branch Resolver 
 % 2. Branch resolution
 segOutPath = outputPath;
-for f = 6:height(input_data)
+for f = 1:height(input_data)
     segFile = input_data.segFile{f}; 
     inputFile = fullfile(segOutPath, segFile); 
     ignoreFrames = input_data.IgnoreFrames(f); 

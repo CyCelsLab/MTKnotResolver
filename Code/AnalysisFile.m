@@ -113,7 +113,9 @@ function dataArray = AnalysisFile(resolveCoordinates, filePath)
     ylabel('Time (s)')
     set(gca, 'color', 0 * [1 1 1]);
     set(gca, 'FontSize', 14);
-    xlim([0 (maxSize - spreadZero) * (106 / 1000)]);
+    xlim([0.1 (maxSize - spreadZero-1) * (106 / 1000)]);
+    ylim([0 maxRow*10]);
+
     cb = colorbar;
     set(cb, 'Ticks', [-1, -0.5, 0, 0.5, 1], 'TickLabels', {'-\pi ', '-\pi /2', '0', '\pi /2', '\pi '}, 'FontSize', 16);
     
