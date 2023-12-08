@@ -56,7 +56,7 @@ for f = 1:nFrames
     filaprops = regionprops(connectedComp, 'PixelIdxList'); 
     if ~selectedFilament
         overImage1 = imoverlay(medI, bwperim(actCont)); 
-        figure(2), imshow(overImage1); title('Select one filamnet to track'); 
+        figure(2), imshow(overImage1, 'InitialMagnification',500); title('Select one filamnet to track'); 
         [x, y] = ginput(1);
         indxSelect = sub2ind(size(I),ceil(y), ceil(x)); 
         for m = 1:length(filaprops)
@@ -110,7 +110,11 @@ end
 % 2. Branch resolution
 segOutPath = outputPath;
 for f = 1:height(input_data)
+    try
     segFile = input_data.segFile{f}; 
+    catch
+    segFile = replace(input_data.Filename{f}, '.tif', '.mat'); 
+    end 
     inputFile = fullfile(segOutPath, segFile); 
     ignoreFrames = input_data.IgnoreFrames(f); 
     editFrames = input_data.manualCheck(f); 
@@ -122,21 +126,39 @@ for f = 1:height(input_data)
     resFileName = replace(segFile, '.mat', ''); 
     resfullPath  = fullfile(segOutPath, resFileName); 
     load(inputFile) % Load the data_struct 
+    try 
     resolveCoordinates = SingleFilamentResolver(data_struct, frameIgnore, ...
         frameEdit, frameInvert,resfullPath); 
+    catch
+        disp(['File Skipped ']);
+    end 
 end 
 %% Analysis Plots 
 resolvedStruct = 'resolveCoordinates_v4.mat'; 
 % Process each struct and plot graphs 
 for d = 1:height(input_data)
-    filePath = fullfile(segOutPath, replace(input_data.segFile{d}, '.mat', ''), resolvedStruct); 
-    load(filePath) % Output folder is resolve Coordinates 
-    dataArray = AnalysisFile(resolveCoordinates,filePath); 
-    [figurePath,~,~] = fileparts(filePath); 
-    %print(gcf, '-dpdf', fullfile(figurePath, sprintf("Over%d.pdf",d)),'-r600')
-    %figure(2), plot(cat(1,resolveCoordinates.FrameNumber).*10,bendingarray, 'lineWidth', 3.0); 
-    print(gcf, '-dpdf', fullfile(figurePath, sprintf("Al%d.pdf",d)),'-r600')
-    close all
-    ProcessCSV(dataArray, 106/1000, 0, 10); 
-    print(gcf, '-dpdf', fullfile(figurePath, sprintf("Tip angle%d",d)), '-r600')
+
+    segFile = replace(input_data.Filename{d}, '.tif', '.mat');
+
+    filePath = fullfile(segOutPath, replace(segFile, '.mat', ''), resolvedStruct);
+    try
+     load(filePath) % Output folder is resolve Coordinates
+
+     try
+         dataArray = AnalysisFile(resolveCoordinates,filePath);
+         [figurePath,~,~] = fileparts(filePath);
+         %print(gcf, '-dpdf', fullfile(figurePath, sprintf("Over%d.pdf",d)),'-r600')
+         %figure(2), plot(cat(1,resolveCoordinates.FrameNumber).*10,bendingarray, 'lineWidth', 3.0);
+         print(gcf, '-dpdf', fullfile(figurePath, sprintf("Al%d.pdf",d)),'-r600')
+         close all
+         ProcessCSV(dataArray, 106/1000, 0, 10);
+         print(gcf, '-dpdf', fullfile(figurePath, sprintf("Tip angle%d",d)), '-r600')
+     catch
+         disp(['File Skipped']);
+     end
+
+    catch 
+       continue
+    end
+    
 end 

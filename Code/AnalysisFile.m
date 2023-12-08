@@ -39,9 +39,12 @@ function dataArray = AnalysisFile(resolveCoordinates, filePath)
         yc = yc(:) + Offset(1);
         
         % Smooth the x and y coordinates using a Savitzky-Golay filter
+        try 
         xc = smooth(xc, 0.2, "sgolay");
         yc = smooth(yc, 0.2, "sgolay");
-
+        catch
+            continue 
+        end 
         % Normalize coordinates to a specific scale
         yc1 = yc - yc(1);
         xc1 = xc - xc(1);
@@ -96,7 +99,8 @@ function dataArray = AnalysisFile(resolveCoordinates, filePath)
     xlabel('X (\mu m)');
     ylabel('Y (\mu m)'); 
     hold off
-    matDisTangent = matDisTangent / 180;
+    matDisTangent = matDisTangent * (pi/ 180); % convert degree to rad/ might be 
+    % some errors in plotting (adjust the colorbar accordingly)
     imAlpha = ones(size(matDisTangent));
     imAlpha(isnan(matDisTangent)) = 0;
     matDisTangent(isnan(matDisTangent)) = 0;
@@ -117,7 +121,7 @@ function dataArray = AnalysisFile(resolveCoordinates, filePath)
     ylim([0 maxRow*10]);
 
     cb = colorbar;
-    set(cb, 'Ticks', [-1, -0.5, 0, 0.5, 1], 'TickLabels', {'-\pi ', '-\pi /2', '0', '\pi /2', '\pi '}, 'FontSize', 16);
+    %set(cb, 'Ticks', [-1, -0.5, 0, 0.5, 1], 'TickLabels', {'-\pi ', '-\pi /2', '0', '\pi /2', '\pi '}, 'FontSize', 16);
     
     % Plot end-to-end distances
     figure(1), subplot(3, 1, 3);
@@ -127,6 +131,7 @@ function dataArray = AnalysisFile(resolveCoordinates, filePath)
     set(gca, 'FontSize', 14);
     g.Position = [1229 115 467 1200];
 
+    
     %% Save the CSV file with tangent angles
     sizemat = cellfun(@size, {resolveCoordinates.Skeleton}, 'UniformOutput', false);
     maxSize = max(cellfun(@max, sizemat));

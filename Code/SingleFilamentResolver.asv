@@ -41,7 +41,7 @@ end
 % non empty 
 % remove empty data_struct 
 
-data_struct = data_struct(~cellfun(@isempty,{data_struct.Contour})); 
+
 %data_struct(data_struct) = []
 resolveCoordinates = data_struct;
 resolveCoordinates(ismember(cat(1,resolveCoordinates.FrameNumber), frameIgnore')) = []; 
@@ -140,8 +140,8 @@ if ~isfolder(outFolder)
     mkdir(outFolder); 
 end 
 
-if exist(fullfile(outFolder, 'segOverlay_v4.tif'), 'file') 
-    delete(fullfile(outFolder,'segOverlay_v4.tif'));
+if exist(fullfile(outFolder, 'segOverlay.tif'), 'file') 
+    delete(fullfile(outFolder,'segOverlay.tif'));
 end
 
 
@@ -163,13 +163,10 @@ for d = 1:length(resolveCoordinates)
     ims = repmat(ims,[1 1 3]); 
     figure(1), imshow(ims, 'border','loose'); title(resolveCoordinates(d).FrameNumber); hold on 
     %figure(1), plot(xx, yy,'r-');hold off 
-    try
-        figure(1),patch([xx' nan], [yy' nan],[1:length(xx) nan], 'edgecolor', 'interp', 'LineWidth', 2.0); hold off
-        imwrite(getframe(gcf).cdata, fullfile(outFolder, 'segOverlay_v4.tif'),'Writemode', 'append');
-    catch 
-        imwrite(getframe(gcf).cdata, fullfile(outFolder, 'segOverlay_v4.tif'),'Writemode', 'append');
+    
+    figure(1),patch([xx' nan], [yy' nan],[1:length(xx) nan], 'edgecolor', 'interp', 'LineWidth', 2.0); hold off
+    imwrite(getframe(gcf).cdata, fullfile(outFolder, 'segOverlay_v4.tif'),'Writemode', 'append');
 
-    end 
     %imwrite(getframe(gcf).cdata, fullfile(outFolder, 'Contour.tif'), 'Writemode', 'append');
 end 
 F = findall(0,'type','figure','tag','TMWWaitbar');
