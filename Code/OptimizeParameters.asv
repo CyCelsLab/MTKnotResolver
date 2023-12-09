@@ -4,30 +4,77 @@ The script optimizes segmentation parameters for a given time series. The
 parameters can be appended or exported to a CSV file for use with the
 KnotResolver function.
 %}
-
-%% Input csv file selection
+%% 1. Input csv file selection
 [inputFile, inputPath] = uigetfile('*.csv', 'Select MT time series');
-readCsv = readtable(fullfile(inputPath, inputFile));
+expectedHeaders = {'FileName', 'FolderPath'}; 
+
+readCsv = readtable(fullfile(inputPath, inputFile), ...
+    'ReadVariableNames',true, 'Delimiter',',');
+
+actualHeaders = readCsv.Properties.VariableNames;
+
+% Compare the actual headers with the expected headers
+if isequal(actualHeaders, expectedHeaders)
+    disp('Correct headers found.....');
+else
+    disp('Script stopped');
+    return 
+end 
+ 
+% Specify the filename to check
+filename = replace(inputFile, '.csv', '_optimized.csv');  % Replace with your actual CSV filename
+optFilename = fullfile(inputPath, filename); 
+% Check if the file exists in the current directory
+
+if exist(optFilename, 'file') == 2
+    % Read the first line of the CSV file to check headers
+    disp(['Optimized file' , filename ,' exits in the directory'])
+    optCsv = readtable(optFilename,  'ReadVariableNames',true, 'Delimiter',',');
+    headerLine = optCsv.Properties.VariableNames;
+
+    % Define the expected headers (replace with your actual headers)
+    expectedHeaders = {'FileName', 'FolderPath', 'segThresh', 'segIteration', 'segContract', ...
+    	'segSmooth', 'resFile','requiresManual','manualCheck','IgnoreFrames',...
+    	'useLogP','logPk','logPs','invertSeries','InvertManual'} ;
+
+    % Compare the actual headers with the expected headers
+    actualHeaders = headerLine;
+    if isequal(actualHeaders, expectedHeaders)
+        disp('OPT CSV file has correct headers. Continuing from last opt Y/N');
+    else
+        disp('OPT CSV seems incorrect, delete it and start again')
+        return 
+    end
+else
+    disp(['Starting from the ' ...
+        'first entry creating ', filename]);
+    optSeg = readCsv;
+end
+%% 2. Default segmentation parameter structure
+segD.segThresh =  0.46;
+segD.segIteration = 10;
+segD.segContract =  0.4;
+segD.segSmooth = 0.2; 
+segD.requiresManual = false;
+segD.manualCheck = false;
+segD.IgnoreFrames =  [];
 %% Process the files 
 for ff = 1:height(readCsv)
     filepath = fullfile(readCsv.FolderPath{ff}, readCsv.Filename{ff});
     nFrames = imfinfo(filepath);
-
     visFrame = 1; % Select the frame for tuning segmentation parameters
     filenameOut = strrep(inputFile, ".csv", ".mat");
-    threshold = readCsv.segThresh(ff);
-    numIteration = readCsv.segIteration(ff);
-    contB = readCsv.segContract(ff);
-    smoothF = readCsv.segSmooth(ff);
+
+    threshold = segD.segThresh;
+    numIteration = segD.segIteration;
+    contB = segD.segContract;
+    smoothF = segD.segSmooth;
+
     resolveFile = '';
-    requiresManual = false;
-    manualcheck = [];
-    IgnoreFrames = [];
-    useLogP = false;
-    logPk = 7;
-    logPs = 0.5;
-    invertSeries = false;
-    InvertManual = false;
+    requiresManual = segD.requiresManual;
+    manualcheck = segD.manualCheck;
+    IgnoreFrames = segD.IgnoreFrames; 
+
     tuneParam = true;
 
     outputPath = fullfile(readCsv.FolderPath{ff}, 'DemoOutput');

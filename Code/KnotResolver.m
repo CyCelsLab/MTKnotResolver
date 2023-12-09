@@ -13,14 +13,14 @@ clear all; close all
 outputPath =fullfile(pathFile,'DemoOutput');
 [status, msg, msgID] = mkdir(outputPath); 
 input_data =readtable(fullfile(pathFile,inputFile));
-%% Load parameters 
+%% Load Segmentation parameters 
 for h = 1:height(input_data)
 % Load the csv parameters 
 threshold = input_data.segThresh(h); % threshold value for imbinarize 
 numIteration = input_data.segIteration(h); % iterations for active contour
 contB = input_data.segContract(h); % contraction bias for activecontour function 
 smoothF =input_data.segSmooth(h); % smooth factor for activecontour function
-inputFile = input_data.Filename{h}; 
+inputFile = input_data.FileName{h}; 
 filenameOut = replace(inputFile,'.tif', '.mat') ; 
 segfileName = replace(inputFile, '.tif', 'seg.tif'); 
 outfilename = fullfile(outputPath,filenameOut); 
@@ -113,7 +113,7 @@ for f = 1:height(input_data)
     try
     segFile = input_data.segFile{f}; 
     catch
-    segFile = replace(input_data.Filename{f}, '.tif', '.mat'); 
+    segFile = replace(input_data.FileName{f}, '.tif', '.mat'); 
     end 
     inputFile = fullfile(segOutPath, segFile); 
     ignoreFrames = input_data.IgnoreFrames(f); 
@@ -138,7 +138,7 @@ resolvedStruct = 'resolveCoordinates_v4.mat';
 % Process each struct and plot graphs 
 for d = 1:height(input_data)
 
-    segFile = replace(input_data.Filename{d}, '.tif', '.mat');
+    segFile = replace(input_data.FileName{d}, '.tif', '.mat');
 
     filePath = fullfile(segOutPath, replace(segFile, '.mat', ''), resolvedStruct);
     try
