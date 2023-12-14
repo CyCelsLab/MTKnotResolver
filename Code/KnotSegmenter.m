@@ -52,7 +52,7 @@ if exist(optFilename, 'file') == 2
             return 
         end 
     else
-        disp('OPT CSV seems incorrect, file will be re-written deleting the file') 
+        disp('OPT CSV seems incorrect, file will be over-written deleting the file') 
         optSeg = readCsv; 
     end
 else
@@ -108,7 +108,7 @@ for ff = 1:height(optSeg)
         overImage = imoverlay(medI, bwskel(actCont), 'red'); 
         overImage = imoverlay(overImage , bwperim(actCont), 'yellow'); 
         imshow(overImage, 'Parent', segmentedAxes);
-        title(segmentedAxes, ['Segmented Image (Threshold = ' num2str(threshold) ')']);
+        title(segmentedAxes, ['Segmented Image (Threshold = ' num2str(threshold) ')'  ' Frame ' num2str(visFrame)]);
    
 
         % Default values
@@ -196,7 +196,7 @@ function updateSegmentationMain(~,filepath,frameSlider, thresholdSlider, ...
     overImage = imoverlay(medI, bwskel(actCont), 'red'); 
     overImage = imoverlay(overImage , bwperim(actCont), 'yellow'); 
     imshow(overImage, 'Parent', segmentedAxes);
-    title(segmentedAxes, ['Segmented Image (Threshold = ' num2str(threshold) ')']);
+    title(segmentedAxes, ['Segmented Image (Threshold = ' num2str(threshold) ')' ' Frame '  num2str(frame)]);
 
 end
 
