@@ -10,8 +10,7 @@
 %% Load the input csv data 
 function KnotResolver(inputFile, pathFile)
 if inputFile == ""
-    % To use the function without KnotSegmenter use the "" as the input
-    % arguments to inputFile and PathFile
+    % To use the function w
     [inputFile, pathFile]= uigetfile('.csv'); 
     outputPath =fullfile(pathFile,'DemoOutput');
 else

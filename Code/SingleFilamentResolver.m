@@ -63,7 +63,6 @@ referenceEnd = [];
 f = waitbar(0, 'Processing....');
 for f = 1:numFilaments
     waitbar(f/numFilaments);
-    disp(f); 
     curContour = zeros(resolveCoordinates(f).ImageSize); 
     pxIndices = resolveCoordinates(f).Contour;
     curContour(pxIndices) = 1; 
