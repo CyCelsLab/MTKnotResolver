@@ -1,12 +1,12 @@
 %% Created by Dhruv Khatri , IISER Pune. 
-function dataArray = AnalysisFile(resolveCoordinates, filePath)
+function [dataArray, endEndDistance] = AnalysisFile(resolveCoordinates, filePath,ScalingFactor)
 %AnalysisFile implements plotting of tangent angle along the contour and
 % ouputs the csv file of framenumber , x and y coordinates. The output
 % therefore are open figure of 3 subfigures (1) Overlay of contour with
 % gradient coded along the length of the contour. (2) Tangent angle
 % kymograph along. (3) End-to end distance between the two ends for the
 % complete time series. 
-% INPUT: 
+% INPUT: ScalFactor used in manuscript = 106/1000 
 % ResolveCoordinates: The struct output from the KnotResolver.m file. 
 % filePath: File path of where the input is located. Creates a DemoOutput
 % folder and saves the pdf of the fiugure and csv file. 
@@ -48,8 +48,8 @@ function dataArray = AnalysisFile(resolveCoordinates, filePath)
         % Normalize coordinates to a specific scale
         yc1 = yc - yc(1);
         xc1 = xc - xc(1);
-        yc1 = yc1 * (106 / 1000);
-        xc1 = xc1 * (106 / 1000);
+        yc1 = yc1 * ScalingFactor;
+        xc1 = xc1 * ScalingFactor;
 
         % Calculate and store end-to-end distances
         endEndDistance = [endEndDistance, pdist([xc1(1), yc1(1); xc1(end), yc1(end)])];
@@ -132,7 +132,7 @@ function dataArray = AnalysisFile(resolveCoordinates, filePath)
     g.Position = [1229 115 467 1200];
 
     
-    %% Save the CSV file with tangent angles
+    %% Save the CSV file with Contour coordinates
     sizemat = cellfun(@size, {resolveCoordinates.Skeleton}, 'UniformOutput', false);
     maxSize = max(cellfun(@max, sizemat));
     dataL = sum(cellfun(@max, sizemat));
