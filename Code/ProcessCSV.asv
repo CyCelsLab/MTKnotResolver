@@ -35,7 +35,7 @@ function outMat = ProcessCSV(mtcsv, endEndDistance,scalingFactor,endDistancemicr
 
     frequencies = (0:length(tipAngles) - 1)*fs / length(tipAngles); % Normalized frequencies
      % Plot the data of tip angles
-    g = figure(1); subplot(2,1,1); 
+    g = figure(10); subplot(2,1,1); 
 
     plot(unique(frameNumber).*timeStep, tipAngles, 'b-', 'LineWidth', 2);
     xlabel('Time (s)');
@@ -161,7 +161,11 @@ function generateStatsSummary(inputData, tipAnglesRaw, tipAngles, dominantFreque
     fprintf(fileID, '%.2f, %.2f, %.2f, %.2f, %.2f\n', meanLength, medianLength, stdLength, minLength, maxLength);
     
 
-    fprintf(fileID, 'Frame, Length, Tip Angle, Tip Angle (smooth), End')
+    fprintf(fileID, 'Frame, Length (micron), Tip Angle, Tip Angle (smooth), EndToEndDistance (micron)\n');
+    for i = 1:length(outputData(:,1))
+            fprintf(fileID, '%d, %.3f, %.3f, %.3f, %.3f\n', ...
+            outputData(i,1), outputData(i,2), outputData(i,3), outputData(i,4), outputData(i,5));
+    end 
     fclose(fileID);
     
     % Display completion message

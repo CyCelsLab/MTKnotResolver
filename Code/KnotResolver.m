@@ -155,11 +155,11 @@ for d = 1:height(input_data)
     try
         load(filePath) % Output folder is resolve Coordinates
         try
-            [dataArray, endEndDistance] = AnalysisFile(resolveCoordinates,filePath,ScalingFactor);
             [figurePath,~,~] = fileparts(filePath);
+            [dataArray, endEndDistance] = AnalysisFile(resolveCoordinates,filePath,ScalingFactor,figurePath);
+
             %print(gcf, '-dpdf', fullfile(figurePath, sprintf("Over%d.pdf",d)),'-r600')
             %figure(2), plot(cat(1,resolveCoordinates.FrameNumber).*10,bendingarray, 'lineWidth', 3.0);
-            print(gcf, '-dpdf', fullfile(figurePath, sprintf("Al%d.pdf",d)),'-r600')
             close all
             ProcessCSV(dataArray,endEndDistance, ScalingFactor, DistanceEnd, TimeStepSeconds,figurePath);
             print(gcf, '-dpdf', fullfile(figurePath, sprintf("Tip angle%d",d)), '-r600')

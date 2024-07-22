@@ -133,7 +133,8 @@ close all
     ylabel('d_{e} (\mu m)') 
     xlabel('Time (s)')
     set(gca, 'FontSize', 14);
-    print(gcf, '-dpdf', fullfile(figurePath, sprintf("End2End.pdf")),'-r600')
+    g.Position = [1229 115 467 1200];
+        print(gcf, '-dpdf', fullfile(figurePath, sprintf("ContoutOverlay.pdf")),'-r600')
 
     
     %% Save the CSV file with Contour coordinates

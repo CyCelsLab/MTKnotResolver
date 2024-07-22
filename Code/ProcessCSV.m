@@ -1,5 +1,4 @@
 function outMat = ProcessCSV(mtcsv, endEndDistance,scalingFactor,endDistancemicron,timeStep, figurePath)
-    close all;
     % Check if the scalingFactor is provided, otherwise set a default value
     if nargin < 2
         scalingFactor = 106/1000; % Default scaling factor value (you can change it as needed)
@@ -35,7 +34,7 @@ function outMat = ProcessCSV(mtcsv, endEndDistance,scalingFactor,endDistancemicr
 
     frequencies = (0:length(tipAngles) - 1)*fs / length(tipAngles); % Normalized frequencies
      % Plot the data of tip angles
-    g = figure(1); subplot(2,1,1); 
+    g = figure(10);subplot(2,1,1)
 
     plot(unique(frameNumber).*timeStep, tipAngles, 'b-', 'LineWidth', 2);
     xlabel('Time (s)');
@@ -56,15 +55,12 @@ function outMat = ProcessCSV(mtcsv, endEndDistance,scalingFactor,endDistancemicr
 
 
     % Plot the FFT analysis results
-    figure(1); subplot(2,1,2); 
+    figure(10);subplot(2,1,2);
     stem(frequencies, amplitude, 'r-', 'LineWidth', 1.5);
     xlabel('Frequency (Hz)');
     ylabel('Amplitude');
     title('FFT Analysis of Tip Angle Variation');
     grid on;
-
-    g.Position = [995 909 1016 413];
-
     %% GENERATE SUMMARY
     inputData = data;        % Replace with your input file name
     outputFileName = 'statsSummary.txt'; 
