@@ -1,7 +1,5 @@
 # KnotResolver: MATLAB Code Guide
 
-![A beating filament from a pinned gliding assay](Images/density27len47(MOD_trans)contour.gif)
-
 KnotResolver is a MATLAB script that can be used to segment and track single filaments. The script is designed for a “beating assay” setup.
 
 ## Table of Contents
@@ -67,3 +65,10 @@ A separate folder with the same name as the input image is created and contains 
 - **segOverlay_v*.tif**: Final output skeleton color coded along the length. This can be visually checked to confirm if the output is correct.
 - **TipAngle.pdf**: FFT analysis of the tip angle suspended at the two tips of the beating microtubule. The subplots show the tip angle change with frame number and power spectrum output from the FFT analysis.
 - **statsSummary.txt**: This file contains the log of input parameters of scaling, time step, and ignored distance from the tip. Additionally, dominant frequency and contour length parameters with frame-wise change are also documented.
+
+
+<div align="center">
+  <img src="Images/density27len47(MOD_trans)contour.gif" alt="A beating filament">
+</div>
+
+
