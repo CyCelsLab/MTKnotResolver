@@ -162,7 +162,7 @@ for d = 1:height(input_data)
             %figure(2), plot(cat(1,resolveCoordinates.FrameNumber).*10,bendingarray, 'lineWidth', 3.0);
             close all
             ProcessCSV(dataArray,endEndDistance, ScalingFactor, DistanceEnd, TimeStepSeconds,figurePath);
-            print(gcf, '-dpdf', fullfile(figurePath, sprintf("Tip angle%d",d)), '-r600')
+            print(gcf, '-dpdf', fullfile(figurePath, sprintf("Tip Angle")), '-r600')
         catch
             disp(['Error encountered file skipped']);
         end

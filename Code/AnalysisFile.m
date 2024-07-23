@@ -99,7 +99,7 @@ close all
     xlabel('X (\mu m)');
     ylabel('Y (\mu m)'); 
     hold off
-    print(gcf, '-dpdf', fullfile(figurePath, sprintf("ContoutOverlay.pdf")),'-r600')
+    print(gcf, '-dpdf', fullfile(figurePath, sprintf("ContourOverlay.pdf")),'-r600')
 
     matDisTangent = matDisTangent * (pi/ 180); % convert degree to rad/ might be 
     % some errors in plotting (adjust the colorbar accordingly)
