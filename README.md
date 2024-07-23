@@ -1,5 +1,7 @@
 # KnotResolver: MATLAB Code Guide
 
+![A beating filament from a pinned gliding assay](Images/density27len47(MOD_trans)contour.gif)
+
 KnotResolver is a MATLAB script that can be used to segment and track single filaments. The script is designed for a “beating assay” setup.
 
 ## Table of Contents
