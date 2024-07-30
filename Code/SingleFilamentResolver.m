@@ -48,10 +48,6 @@ resolveCoordinates(ismember(cat(1,resolveCoordinates.FrameNumber), frameIgnore')
 if ~isempty(resolveCoordinates)
     numFilaments = length(resolveCoordinates);
     fprintf('Number of frames provided %d', numFilaments); 
-    if strcmp(resolveCoordinates(1).FilamentType, 'Branched')
-        error(['CAUTION!, the first input contour is branched, either provide' ...
-            'an unbranched contour in the first frame or flip the time series.']); 
-    end 
 else 
     error('Input data struct contains empty fields')  
 end 
@@ -100,36 +96,54 @@ for f = 1:numFilaments
 
     else 
         % sort a branched structure 
-         E1 = find(bwmorph(curContour, 'endpoints'));
-         %previousContour = resolveCoordinates(f-1).Contour; 
-         if length(E1) > 2 
-            sprintf(['More than two ends found for a branched filament ' ...
-             'code will still try to resolve, but we recommed removing them, frame: %d'], f)
+        if f == 1
+             E1 = find(bwmorph(curContour, 'endpoints'));
+             %previousContour = resolveCoordinates(f-1).Contour; 
+             if length(E1) > 2 
+                sprintf(['First frame is branched please add set manual edit to 1'])
+    
+             end 
+             % pick a reference contour from the last resolved/unbranched
+             % contour, make sure that ignored frames are not picked
+                [sortedSkeleton, referenceEnd] = sortSkelManual(curContour,E1, ...
+                referenceEnd); 
+%                 resolveCoordinates(f).Skeleton = sortedSkeleton;
+                resolveCoordinates(f).Offset = Offset;
+                resolveCoordinates(f).smallSize = size(curContour);  
+                resolveCoordinates(f).Skeleton = sortedSkeleton; 
+        else 
 
-         end 
-         % pick a reference contour from the last resolved/unbranched
-         % contour, make sure that ignored frames are not picked 
-         if ismember(resolveCoordinates(f).FrameNumber, frameEdit) 
-             manualEdit = true;
-             if ismember(resolveCoordinates(f).FrameNumber,frameInvert)
-                 frameInvertTrue = true; 
-             else
+             E1 = find(bwmorph(curContour, 'endpoints'));
+             %previousContour = resolveCoordinates(f-1).Contour; 
+             if length(E1) > 2 
+                sprintf(['More than two ends found for a branched filament ' ...
+                 'code will still try to resolve, but we recommed removing them, frame: %d'], f)
+    
+             end 
+             % pick a reference contour from the last resolved/unbranched
+             % contour, make sure that ignored frames are not picked 
+             if ismember(resolveCoordinates(f).FrameNumber, frameEdit) 
+                 manualEdit = true;
+                 if ismember(resolveCoordinates(f).FrameNumber,frameInvert)
+                     frameInvertTrue = true; 
+                 else
+                     frameInvertTrue = false; 
+                 end 
+             else 
+                 manualEdit = false;
                  frameInvertTrue = false; 
              end 
-         else 
-             manualEdit = false;
-             frameInvertTrue = false; 
-         end 
-         refSize  = resolveCoordinates(f-1).smallSize; 
-         refOffset  = resolveCoordinates(f-1).Offset; 
-         [sortedSkeleton, referenceEnd, ~, ~] = sortBranch_v3(curContour, E1, ...
-             resolveCoordinates(f-1).Skeleton, referenceEnd, ...
-             refSize,refOffset,Offset,manualEdit,frameInvertTrue); 
-         resolveCoordinates(f).Skeleton = sortedSkeleton; 
-         %resolveCoordinates(f).Possbilities = allpos;
-         %resolveCoordinates(f).Scores = allScore; 
-         resolveCoordinates(f).Offset = Offset;
-         resolveCoordinates(f).smallSize = size(curContour); 
+             refSize  = resolveCoordinates(f-1).smallSize; 
+             refOffset  = resolveCoordinates(f-1).Offset; 
+             [sortedSkeleton, referenceEnd, ~, ~] = sortBranch_v3(curContour, E1, ...
+                 resolveCoordinates(f-1).Skeleton, referenceEnd, ...
+                 refSize,refOffset,Offset,manualEdit,frameInvertTrue); 
+             resolveCoordinates(f).Skeleton = sortedSkeleton; 
+             %resolveCoordinates(f).Possbilities = allpos;
+             %resolveCoordinates(f).Scores = allScore; 
+             resolveCoordinates(f).Offset = Offset;
+             resolveCoordinates(f).smallSize = size(curContour); 
+        end 
 
     end
 end

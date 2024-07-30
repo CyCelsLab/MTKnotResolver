@@ -114,12 +114,12 @@ close all
     spreadZero = (prod(size(tempMat)) - length(nonzeros(tempMat))) / sizeTemp(1);
 
     figure(11);
-    imagesc([1:maxSize] * (106 / 1000), [0:maxRow] * 10, matDisTangent, 'AlphaData', imAlpha);
+    imagesc([1:maxSize] * ScalingFactor, [0:maxRow] * 10, matDisTangent, 'AlphaData', imAlpha);
     xlabel('MT (\mu m)')
     ylabel('Time (s)')
     set(gca, 'color', 0 * [1 1 1]);
     set(gca, 'FontSize', 14);
-    xlim([0.1 (maxSize - spreadZero-1) * (106 / 1000)]);
+    xlim([0.1 (maxSize - spreadZero-1) * ScalingFactor]);
     ylim([0 maxRow*10]);
 
     cb = colorbar;

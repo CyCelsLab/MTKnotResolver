@@ -1,3 +1,4 @@
 FileName,FolderPath,segThresh,segIteration,segContract,segSmooth,requiresManual,IgnoreFrames,useLogP,logPk,logPs,InvertManual,manualCheck
 121 - beating003.nd2 (series 1).tif,../InputFiles,0.46,10,0.4,0.2,0,0,False,False,False,False,False
 61 - dyn1-20002 (copy).nd2 (series 1).tif,../InputFiles,0.46,10,0.4,0.2,0,0,False,False,False,False,False
+branchDemo.tif,../InputFiles,0.655738,10,0.4,0.2,0,0,False,False,False,False,[1]

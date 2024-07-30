@@ -176,7 +176,7 @@ outPutFile = fullfile(inputPath,filename);
 writetable(optSeg, outPutFile); 
 disp(["Ouput file with optimized parameters is written as: " , outPutFile])
 
-
+%% RUN Knot RESOLVER
 % Create a yes/no dialog box
 choice = questdlg('Do you want to run KnotResolver ?', 'Confirmation', 'Yes', 'No', 'No');
 
