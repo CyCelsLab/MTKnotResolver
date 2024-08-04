@@ -46,7 +46,12 @@ The output is a `.csv` file with the suffix "optimized." This file contains the 
 - **Iterations**: Number of iterations for the `activecontour` method.
 
 ### 1.3. KnotResolver.m
-The `.csv` with the optimized parameters can be run directly with the `KnotResolver.m` script. For each file, the code shows the segmentation overlay on the original input image with a crosshair for MT selection. The central microtubule needs to be selected. The contour selection location determines the position of the fixed tip. Therefore, careful selection of the contour near the fixed tip should be made.
+The `.csv` with the optimized parameters can be run directly with the `KnotResolver.m` script. 
+
+Example:
+>>KnotResolver('InputFile_manualopt.csv','../InputFiles/')
+
+For each file, the code shows the segmentation overlay on the original input image with a crosshair for MT selection. The central microtubule needs to be selected. The contour selection location determines the position of the fixed tip. Therefore, careful selection of the contour near the fixed tip should be made.
 
 Once the selection of the central contour is made, the MT in the next frame is identified based on overlap with the initial selection, which is updated in every frame.
 
