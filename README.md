@@ -65,6 +65,10 @@ To select a frame to manually edit, mention the frame number in closed parenthes
 - For loops, the selected pixel determines the start loop orientation if the first contour is branched; otherwise, the selection is based on curve similarity.
 - Right-click to finalize the selected path.
 
+<div align="center">
+  <img src="Images/rev5-ManualEdit.png" alt="A beating filament">
+</div>
+
 
 ### 1.4. Output
 

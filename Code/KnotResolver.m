@@ -7,6 +7,7 @@
 % sample cvs provided on github for naming the variables and the format.
 % Hosted at: https://github.com/CyCelsLab/MTLoopResolve
 % Parameters/names coded in the script are on line 51, 126
+% KnotResolver(inputFile, pathFile)
 %% Load the input csv data
 function KnotResolver(inputFile, pathFile)
 if inputFile == ""
