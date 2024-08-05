@@ -58,10 +58,10 @@ Once the selection of the central contour is made, the MT in the next frame is i
 
 #### Manual Edit
 
-To select a frame to manually edit, mention the frame number in closed parentheses ([]) in the *_optimized.csv file under the column header `manualCheck`.
+To select a frame to manually edit, mention the frame number in closed parentheses (ex-  [1], for manual edit on frame 1) in the *_optimized.csv file under the column header `manualCheck`.
 
 - Manually select the starting label/filament and connect along the correct contour arrangement.
-- Always connect adjacent labels.
+- Always connect adjacent labels. Only one selection is required for each label.
 - For loops, the selected pixel determines the start loop orientation if the first contour is branched; otherwise, the selection is based on curve similarity.
 - Right-click to finalize the selected path.
 
