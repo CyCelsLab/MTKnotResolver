@@ -898,6 +898,7 @@ xold = 0;
 yold = 0;
 k = 0;
 fig = figure(1), imshow(imresize(image, [512, 512], "nearest"), 'InitialMagnification', 700, "Border", "tight"); hold on
+title( 'Perform manual selection of the correct contour path' );
 set(fig, 'Position',  [100, 100, dim_desk(3)/2, dim_desk(4)/2]) 
 while 1
 
