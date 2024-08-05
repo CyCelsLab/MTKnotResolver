@@ -9,7 +9,8 @@ KnotResolver is a MATLAB script that can be used to segment and track single fil
   - [1.1. Creating a ‘.csv’ file for analysis](#11-creating-a-csv-file-for-analysis)
   - [1.2. Segmentation parameters](#12-segmentation-parameters)
   - [1.3. KnotResolver.m](#13-knotresolverm)
-  - [1.4. Output](#14-output)
+    - [Manual Edit](#demooutput)
+  - [1.4. Output](#manual-edit)
     - [DemoOutput](#demooutput)
 
 ## Download source code
@@ -54,6 +55,16 @@ Example:
 For each file, the code shows the segmentation overlay on the original input image with a crosshair for MT selection. The central microtubule needs to be selected. The contour selection location determines the position of the fixed tip. Therefore, careful selection of the contour near the fixed tip should be made.
 
 Once the selection of the central contour is made, the MT in the next frame is identified based on overlap with the initial selection, which is updated in every frame.
+
+#### Manual Edit
+
+To select a frame to manually edit, mention the frame number in closed parentheses ([]) in the *_optimized.csv file under the column header `manualCheck`.
+
+- Manually select the starting label/filament and connect along the correct contour arrangement.
+- Always connect adjacent labels.
+- For loops, the selected pixel determines the start loop orientation if the first contour is branched; otherwise, the selection is based on curve similarity.
+- Right-click to finalize the selected path.
+
 
 ### 1.4. Output
 
