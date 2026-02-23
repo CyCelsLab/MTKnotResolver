@@ -34,7 +34,8 @@ Note: Please close other figure tabs if open in MATLAB, before running KnotResol
 
 ## Citing the work
 The code described here has been tested and is published as a peer reviewed paper. We request any users that publish their results, to cite it as follows:
-Dhruv Khatri, Shivani A Yadav, Chaitanya A Athale (2024) KnotResolver: tracking self-intersecting filaments in microscopy using directed graphs, Bioinformatics, Volume 40, Issue 9,  btae538, https://doi.org/10.1093/bioinformatics/btae538
+
+``Dhruv Khatri, Shivani A Yadav, Chaitanya A Athale (2024) KnotResolver: tracking self-intersecting filaments in microscopy using directed graphs, Bioinformatics, Volume 40, Issue 9,  btae538, https://doi.org/10.1093/bioinformatics/btae538''
 
 ## 1. Workflow
 
